@@ -1,4 +1,3 @@
-```md
 # Spring Boot Documentation Generator (SpringbootAI / DevJAI)
 
 Enterprise technical documentation for existing Spring Boot repositories.
@@ -69,4 +68,3 @@ From a Spring Boot repository SpringbootAI produces:
 ## Tool
 
 Website: https://www.springbootai.com
-```
