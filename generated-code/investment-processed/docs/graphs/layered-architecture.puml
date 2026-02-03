@@ -1,0 +1,30 @@
+@startuml
+!pragma layout smetana
+
+package "Presentation Layer" {
+    class InvestmentController
+    class PersonController
+}
+
+package "Service Layer" {
+    class InvestmentService
+    class PersonService
+}
+
+package "Integration Layer" {
+}
+
+package "Domain Layer" {
+    class InvestmentDTO
+    class PersonDTO
+    class InvestmentMapper
+    class PersonMapper
+}
+
+package "Persistence Layer" {
+    class InvestmentRepository
+    class PersonRepository
+    class Investment
+    class Person
+}
+@enduml

@@ -1,0 +1,106 @@
+POST /api/persons
+{
+    "fullName": "Jane Doe",
+    "email": "jane.doe@example.com",
+    "taxId": "987654321"
+}
+Response:
+{
+    "id": 2,
+    "fullName": "Jane Doe",
+    "email": "jane.doe@example.com",
+    "taxId": "987654321"
+}
+
+GET /api/persons
+Response:
+[
+    {
+        "id": 1,
+        "fullName": "John Doe",
+        "email": "john.doe@example.com",
+        "taxId": "123456789"
+    },
+    {
+        "id": 2,
+        "fullName": "Jane Doe",
+        "email": "jane.doe@example.com",
+        "taxId": "987654321"
+    }
+]
+
+GET /api/persons/1
+Response:
+{
+    "id": 1,
+    "fullName": "John Doe",
+    "email": "john.doe@example.com",
+    "taxId": "123456789"
+}
+
+PUT /api/persons/1
+{
+    "fullName": "John Smith",
+    "email": "john.smith@example.com",
+    "taxId": "123456789"
+}
+Response:
+{
+    "id": 1,
+    "fullName": "John Smith",
+    "email": "john.smith@example.com",
+    "taxId": "123456789"
+}
+
+DELETE /api/persons/1
+Response: 204 No Content
+
+POST /api/investments
+{
+    "type": "Real Estate",
+    "amountUSD": 2000.00,
+    "investmentDate": "2023-03-01",
+    "personId": 2
+}
+Response:
+{
+    "id": 1,
+    "type": "Real Estate",
+    "amountUSD": 2000.00,
+    "investmentDate": "2023-03-01",
+    "personId": 2
+}
+
+GET /api/investments/person/2
+Response:
+[
+    {
+        "id": 1,
+        "type": "Real Estate",
+        "amountUSD": 2000.00,
+        "investmentDate": "2023-03-01",
+        "personId": 2
+    }
+]
+
+GET /api/investments/person/2/total
+Response: 2000.00
+
+PUT /api/investments/1
+{
+    "type": "Real Estate",
+    "amountUSD": 2500.00,
+    "investmentDate": "2023-03-01",
+    "personId": 2
+}
+Response:
+{
+    "id": 1,
+    "type": "Real Estate",
+    "amountUSD": 2500.00,
+    "investmentDate": "2023-03-01",
+    "personId": 2
+}
+
+DELETE /api/investments/1
+Response: 204 No Content

@@ -1,0 +1,74 @@
+```java
+package com.example.investment.mapper;
+
+import com.example.investment.dto.InvestmentDTO;
+import com.example.investment.model.Investment;
+import com.example.investment.model.Person;
+import com.example.investment.repository.PersonRepository;
+import org.mapstruct.AfterMapping;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
+
+@Mapper(componentModel = "spring")
+public abstract class InvestmentMapper {
+
+    @Autowired
+    protected PersonRepository personRepository;
+
+    @Mapping(source = "personId", target = "person")
+    public abstract Investment toEntity(InvestmentDTO dto);
+
+    @Mapping(source = "person.id", target = "personId")
+    public abstract InvestmentDTO toDto(Investment entity);
+
+    @AfterMapping
+    protected void mapPerson(InvestmentDTO dto, @MappingTarget Investment entity) {
+        if (dto.getPersonId() != null) {
+            Person person = personRepository.findById(dto.getPersonId()).orElse(null);
+            entity.setPerson(person);
+        }
+    }
+
+    public abstract void updateEntityFromDto(InvestmentDTO dto, @MappingTarget Investment entity);
+}
+```
+
+```java
+package com.example.investment.mapper;
+
+import com.example.investment.dto.PersonDTO;
+import com.example.investment.model.Person;
+import com.example.investment.repository.InvestmentRepository;
+import org.mapstruct.AfterMapping;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
+
+@Mapper(componentModel = "spring")
+public abstract class PersonMapper {
+
+    @Autowired
+    protected InvestmentRepository investmentRepository;
+
+    public abstract Person toEntity(PersonDTO dto);
+
+    @Mapping(target = "investments", ignore = true)
+    public abstract PersonDTO toDto(Person entity);
+
+    @AfterMapping
+    protected void mapInvestments(Person entity, @MappingTarget PersonDTO dto) {
+        if (entity.getInvestments() != null) {
+            dto.setInvestments(investmentRepository.findByPersonId(entity.getId()));
+        }
+    }
+
+    public abstract void updateEntityFromDto(PersonDTO dto, @MappingTarget Person entity);
+}
+```

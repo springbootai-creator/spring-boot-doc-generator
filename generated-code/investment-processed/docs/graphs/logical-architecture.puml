@@ -1,0 +1,114 @@
+@startuml
+!pragma layout smetana
+
+package "Controllers" {
+    class InvestmentController {
+        +createInvestment(investmentDTO: InvestmentDTO): ResponseEntity<InvestmentDTO>
+        +getInvestmentsByPersonId(personId: Long): ResponseEntity<List<InvestmentDTO>>
+        +calculateTotalInvestedByPerson(personId: Long): ResponseEntity<Double>
+        +updateInvestment(id: Long, investmentDTO: InvestmentDTO): ResponseEntity<InvestmentDTO>
+        +deleteInvestment(id: Long): ResponseEntity<Void>
+    }
+
+    class PersonController {
+        +createPerson(personDTO: PersonDTO): ResponseEntity<PersonDTO>
+        +getAllPersons(): ResponseEntity<List<PersonDTO>>
+        +getPersonById(id: Long): ResponseEntity<PersonDTO>
+        +updatePerson(id: Long, personDTO: PersonDTO): ResponseEntity<PersonDTO>
+        +deletePerson(id: Long): ResponseEntity<Void>
+    }
+}
+
+package "Services" {
+    class InvestmentService {
+        +createInvestment(investmentDTO: InvestmentDTO): InvestmentDTO
+        +getInvestmentsByPersonId(personId: Long): List<InvestmentDTO>
+        +calculateTotalInvestedByPerson(personId: Long): Double
+        +updateInvestment(id: Long, investmentDTO: InvestmentDTO): InvestmentDTO
+        +deleteInvestment(id: Long): void
+    }
+
+    class PersonService {
+        +createPerson(personDTO: PersonDTO): PersonDTO
+        +getAllPersons(): List<PersonDTO>
+        +getPersonById(id: Long): PersonDTO
+        +updatePerson(id: Long, personDTO: PersonDTO): PersonDTO
+        +deletePerson(id: Long): void
+    }
+}
+
+package "Repositories" {
+    class InvestmentRepository {
+        +findByPersonId(personId: Long): List<Investment>
+    }
+
+    class PersonRepository {
+    }
+}
+
+package "Entities" {
+    class Investment {
+        +id: Long
+        +type: String
+        +amountUSD: Double
+        +investmentDate: Date
+        +person: Person
+    }
+
+    class Person {
+        +id: Long
+        +fullName: String
+        +email: String
+        +taxId: String
+        +investments: List<Investment>
+    }
+}
+
+package "DTOs" {
+    class InvestmentDTO {
+        +id: Long
+        +type: String
+        +amountUSD: Double
+        +investmentDate: Date
+        +personId: Long
+    }
+
+    class PersonDTO {
+        +id: Long
+        +fullName: String
+        +email: String
+        +taxId: String
+        +investments: List<InvestmentDTO>
+    }
+}
+
+package "Mappers" {
+    class InvestmentMapper {
+        +toDto(investment: Investment): InvestmentDTO
+        +toEntity(investmentDTO: InvestmentDTO): Investment
+        +toDtoList(investments: List<Investment>): List<InvestmentDTO>
+    }
+
+    class PersonMapper {
+        +toDto(person: Person): PersonDTO
+        +toEntity(personDTO: PersonDTO): Person
+        +toDtoList(persons: List<Person>): List<PersonDTO>
+    }
+}
+
+InvestmentController --> InvestmentService : uses
+InvestmentController --> InvestmentDTO : receives
+InvestmentService --> InvestmentRepository : uses
+InvestmentService --> InvestmentMapper : uses
+InvestmentMapper --> Investment : converts
+
+PersonController --> PersonService : uses
+PersonController --> PersonDTO : receives
+PersonService --> PersonRepository : uses
+PersonService --> PersonMapper : uses
+PersonMapper --> Person : converts
+
+Investment --> Person : belongs to
+Person --> Investment : has many
+
+@enduml

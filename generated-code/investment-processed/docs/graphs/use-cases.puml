@@ -1,0 +1,35 @@
+@startuml
+!pragma layout smetana
+
+top to bottom direction
+
+actor User
+
+rectangle "Investment Management" {
+    usecase "Create a new investment" as UC1
+    usecase "Get investments by person ID" as UC2
+    usecase "Calculate total invested by person" as UC3
+    usecase "Update an existing investment" as UC4
+    usecase "Delete an investment" as UC5
+}
+
+rectangle "Person Management" {
+    usecase "Create a new person" as UC6
+    usecase "Get all persons" as UC7
+    usecase "Get person by ID" as UC8
+    usecase "Update person by ID" as UC9
+    usecase "Delete person by ID" as UC10
+}
+
+User --> UC1
+User --> UC2
+User --> UC3
+User --> UC4
+User --> UC5
+User --> UC6
+User --> UC7
+User --> UC8
+User --> UC9
+User --> UC10
+
+@enduml
